@@ -1,1 +1,25 @@
-<p>candidates works!</p>
+<p>{{title}} component works!</p>
+
+<h2>My candidates</h2>
+<ul class="candidates">
+    <li *ngFor="let candidate of candidates">
+        <button type="button" (click)="onSelect(candidate)" [class.selected]="candidate===selectedCandidate">
+            <span class="badge">{{candidate.id}}</span>&nbsp;
+            <span class="firstName">{{candidate.firstName}}</span>&nbsp;
+            <span class="lastName">{{candidate.lastName}}</span>
+          </button>
+    </li>
+</ul>
+
+<div *ngIf="selectedCandidate">
+    <h2>{{selectedCandidate.firstName | uppercase}}&nbsp;{{selectedCandidate.lastName | uppercase}}</h2>
+    <div>id: {{selectedCandidate.id}}</div>
+    <div>
+        <label for="candidate-first-name">Candidate's first name: </label>
+        <input id="candidate-first-name" [(ngModel)]="selectedCandidate.firstName" placeholder="firstName">
+        <br>
+        <label for="candidate-last-name">Candidate's last name: </label>
+        <input id="candidate-last-name" [(ngModel)]="selectedCandidate.lastName" placeholder="lastName">
+    </div>
+</div>
+
