@@ -7,16 +7,9 @@ import { CandidatesComponent } from './candidates/candidates.component';
 import { CandidateDetailComponent } from './candidate-detail/candidate-detail.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CandidatesComponent,
-    CandidateDetailComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule
-  ],
+  declarations: [AppComponent, CandidatesComponent, CandidateDetailComponent],
+  imports: [BrowserModule, FormsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

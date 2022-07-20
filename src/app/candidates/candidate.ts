@@ -1,5 +1,5 @@
-export interface Candidate{
-    id: number;
-    firstName: string;
-    lastName: string;
+export interface Candidate {
+  id: number;
+  firstName: string;
+  lastName: string;
 }
