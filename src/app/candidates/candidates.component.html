@@ -11,15 +11,4 @@
     </li>
 </ul>
 
-<div *ngIf="selectedCandidate">
-    <h2>{{selectedCandidate.firstName | uppercase}}&nbsp;{{selectedCandidate.lastName | uppercase}}</h2>
-    <div>id: {{selectedCandidate.id}}</div>
-    <div>
-        <label for="candidate-first-name">Candidate's first name: </label>
-        <input id="candidate-first-name" [(ngModel)]="selectedCandidate.firstName" placeholder="firstName">
-        <br>
-        <label for="candidate-last-name">Candidate's last name: </label>
-        <input id="candidate-last-name" [(ngModel)]="selectedCandidate.lastName" placeholder="lastName">
-    </div>
-</div>
-
+<app-candidate-detail [candidate]="selectedCandidate"></app-candidate-detail>
