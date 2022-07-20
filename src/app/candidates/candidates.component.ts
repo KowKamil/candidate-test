@@ -17,8 +17,12 @@ export class CandidatesComponent implements OnInit {
   }
 
   selectedCandidate?: Candidate;
+  
   onSelect(candidate: Candidate): void{
-    this.selectedCandidate = candidate;
+    if(candidate===this.selectedCandidate)
+      this.selectedCandidate=undefined;
+    else
+      this.selectedCandidate = candidate;
   }
 
 }
