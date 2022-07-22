@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CandidateService } from '../candidate-service/candidate.service';
+import { MessageService } from '../message-service/message.service';
 import { Candidate } from './candidate';
 
 @Component({
@@ -9,19 +10,30 @@ import { Candidate } from './candidate';
 })
 export class CandidatesComponent implements OnInit {
   candidates: Candidate[] = [];
+  selectedCandidate?: Candidate;
 
-  constructor(private candidateService: CandidateService) {}
+  constructor(
+    private candidateService: CandidateService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.getCandidates();
   }
 
-  selectedCandidate?: Candidate;
-
   onSelect(candidate: Candidate): void {
-    if (candidate === this.selectedCandidate)
+    if (candidate === this.selectedCandidate) {
+      let deselectedCandidate = this.selectedCandidate;
       this.selectedCandidate = undefined;
-    else this.selectedCandidate = candidate;
+      this.messageService.add(
+        `CandidateComponent: Deselected candidate id=${deselectedCandidate.id}`
+      );
+    } else {
+      this.selectedCandidate = candidate;
+      this.messageService.add(
+        `CandidateComponent: Selected candidate id=${candidate.id}`
+      );
+    }
   }
 
   getCandidates(): void {
