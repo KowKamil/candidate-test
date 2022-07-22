@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CandidateService } from '../candidate-service/candidate.service';
 import { Candidate } from './candidate';
-import { Candidates } from '../mock-candidates';
 
 @Component({
   selector: 'app-candidates',
@@ -8,12 +8,13 @@ import { Candidates } from '../mock-candidates';
   styleUrls: ['./candidates.component.css'],
 })
 export class CandidatesComponent implements OnInit {
-  title = 'Candidates';
-  candidates = Candidates;
+  candidates: Candidate[] = [];
 
-  constructor() {}
+  constructor(private candidateService: CandidateService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getCandidates();
+  }
 
   selectedCandidate?: Candidate;
 
@@ -21,5 +22,11 @@ export class CandidatesComponent implements OnInit {
     if (candidate === this.selectedCandidate)
       this.selectedCandidate = undefined;
     else this.selectedCandidate = candidate;
+  }
+
+  getCandidates(): void {
+    this.candidateService
+      .getCandidates()
+      .subscribe((candidates) => (this.candidates = candidates));
   }
 }

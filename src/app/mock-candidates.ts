@@ -13,3 +13,7 @@ export const Candidates: Candidate[] = [
   { id: 19, firstName: 'Jonathan', lastName: 'Corwin' },
   { id: 20, firstName: 'Samuel', lastName: 'Parris' },
 ];
+
+function getCandidates(): Candidate[] {
+  return Candidates;
+}
