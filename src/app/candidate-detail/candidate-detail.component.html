@@ -2,13 +2,13 @@
     <h2>{{candidate.firstName | uppercase}}&nbsp;{{candidate.lastName | uppercase}}</h2>
     <div>id: {{candidate.id}}</div>
     <div>
-        <form>
+
             <label for="candidate-first-name">Candidate's first name: </label>
             <input id="candidate-first-name" [(ngModel)]="candidate.firstName" placeholder="first name">
             <br>
             <label for="candidate-last-name">Candidate's last name: </label>
             <input id="candidate-last-name" [(ngModel)]="candidate.lastName" placeholder="last name">
-        </form>
-        
+
+
     </div>
 </div>
