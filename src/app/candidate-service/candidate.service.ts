@@ -15,4 +15,11 @@ export class CandidateService {
     this.messageService.add('CandidateService: fetched candidates.');
     return candidates;
   }
+
+  getCandidate(id: number): Observable<Candidate> {
+    //no error handling yet
+    const candidate = Candidates.find((c) => c.id === id)!;
+    this.messageService.add(`CandidateService: fetched candidate id=${id}`);
+    return of(candidate);
+  }
 }

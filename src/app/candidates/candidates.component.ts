@@ -10,7 +10,6 @@ import { Candidate } from './candidate';
 })
 export class CandidatesComponent implements OnInit {
   candidates: Candidate[] = [];
-  selectedCandidate?: Candidate;
 
   constructor(
     private candidateService: CandidateService,
@@ -19,21 +18,6 @@ export class CandidatesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCandidates();
-  }
-
-  onSelect(candidate: Candidate): void {
-    if (candidate === this.selectedCandidate) {
-      let deselectedCandidate = this.selectedCandidate;
-      this.selectedCandidate = undefined;
-      this.messageService.add(
-        `CandidateComponent: Deselected candidate id=${deselectedCandidate.id}`
-      );
-    } else {
-      this.selectedCandidate = candidate;
-      this.messageService.add(
-        `CandidateComponent: Selected candidate id=${candidate.id}`
-      );
-    }
   }
 
   getCandidates(): void {

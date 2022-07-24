@@ -1,0 +1,6 @@
+<h2>Top Candidates</h2>
+<div class="candidates-menu">
+  <a *ngFor="let candidate of candidates" routerLink="/detail/{{candidate.id}}">
+    {{candidate.firstName}}&nbsp;{{candidate.lastName}}
+  </a>
+</div>

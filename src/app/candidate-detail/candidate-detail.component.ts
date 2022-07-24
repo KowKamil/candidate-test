@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Candidate } from '../candidates/candidate';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { CandidateService } from '../candidate-service/candidate.service';
 
 @Component({
   selector: 'app-candidate-detail',
@@ -9,7 +12,24 @@ import { Candidate } from '../candidates/candidate';
 export class CandidateDetailComponent implements OnInit {
   @Input() public candidate?: Candidate;
 
-  constructor() {}
+  constructor(
+    private route: ActivatedRoute,
+    private candidateService: CandidateService,
+    private location: Location
+  ) {}
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.getCandidate();
+  }
+
+  getCandidate(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.candidateService
+      .getCandidate(id)
+      .subscribe((candidate) => (this.candidate = candidate));
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
 }
