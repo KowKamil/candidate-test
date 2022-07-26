@@ -25,4 +25,22 @@ export class CandidatesComponent implements OnInit {
       .getCandidates()
       .subscribe((candidates) => (this.candidates = candidates));
   }
+
+  add(firstName: string, lastName: string): void {
+    firstName = firstName.trim();
+    lastName = lastName.trim();
+    if (!firstName || !lastName) {
+      return;
+    }
+    this.candidateService
+      .addCandidate({ firstName, lastName } as Candidate)
+      .subscribe((candidate) => {
+        this.candidates.push(candidate);
+      });
+  }
+
+  delete(candidate: Candidate): void {
+    this.candidates = this.candidates.filter((c) => c !== candidate);
+    this.candidateService.deleteCandidate(candidate.id).subscribe();
+  }
 }

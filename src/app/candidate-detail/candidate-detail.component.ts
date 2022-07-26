@@ -32,4 +32,12 @@ export class CandidateDetailComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
+  save(): void {
+    if (this.candidate) {
+      this.candidateService
+        .updateCandidate(this.candidate)
+        .subscribe(() => this.goBack());
+    }
+  }
 }

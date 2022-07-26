@@ -1,9 +1,18 @@
 <h2>My candidates</h2>
+<div>
+  <label for="new-candidate">Candidate name:</label>
+  <input id="new-candidate" #candidateFirstName placeholder="first name"/>
+  <input id="new-candidate" #candidateLastName placeholder="last name"/>
+</div>
+
+<button type="button" class="add-button" (click)="add(candidateFirstName.value, candidateLastName.value); candidateFirstName.value=''; candidateLastName.value=''">Add candidate</button>
+
 <ul class="candidates">
     <li *ngFor="let candidate of candidates">
         <a routerLink="/detail/{{candidate.id}}">
           <span class="badge">{{candidate.id}}</span>{{candidate.firstName}}&nbsp;{{candidate.lastName}}
         </a>
+        <button type="button" class="delete" title="delete candidate" (click)="delete(candidate)">x</button>
     </li>
 </ul>
 

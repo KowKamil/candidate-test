@@ -12,6 +12,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { CandidateSearchComponent } from './candidate-search/candidate-search.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     MessagesComponent,
     SidebarComponent,
     DashboardComponent,
+    CandidateSearchComponent,
   ],
   imports: [
     BrowserModule,

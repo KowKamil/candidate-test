@@ -27,7 +27,7 @@ export class InMemoryDataService implements InMemoryDbService {
   // If the candidates array is empty,
   // the method below returns the initial number (11).
   // if the candidates array is not empty, the method below returns the highest
-  // hero id + 1.
+  // candidate id + 1.
   genId(candidates: Candidate[]): number {
     return candidates.length > 0
       ? Math.max(...candidates.map((candidate) => candidate.id)) + 1
