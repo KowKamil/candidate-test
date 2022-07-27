@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Candidate } from '../candidates/candidate';
-import { Candidates } from '../mock-candidates';
 import { Observable, of } from 'rxjs';
 import { MessageService } from '../message-service/message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -63,11 +62,12 @@ export class CandidateService {
   }
 
   searchCandidates(term: string): Observable<Candidate[]> {
+    //TODO make the function search both first name and last name (v1 - do it by backend, v2 - follow through with merging observables)
     if (!term.trim()) {
       return of([]);
     }
     return this.http
-      .get<Candidate[]>(`${this.candidatesUrl}/?firstName=${term}`)
+      .get<Candidate[]>(`${this.candidatesUrl}/?fullName=${term}`)
       .pipe(
         tap((x) =>
           x.length
@@ -76,6 +76,30 @@ export class CandidateService {
         ),
         catchError(this.handleError<Candidate[]>('searchCandidates', []))
       );
+    //an attempt to search both by first name and last name by merging requests
+    /*let candidatesByFirstName$ = this.http.get<Candidate[]>(
+      `${this.candidatesUrl}/?firstName=${term}`
+    );
+    let candidatesByLastName$ = this.http.get<Candidate[]>(
+      `${this.candidatesUrl}/?lastName=${term}`
+    );
+
+    let candidatesByFirstName: Candidate[] = [];
+    candidatesByFirstName$.subscribe((cbfn) => (candidatesByFirstName = cbfn));
+
+    let candidatesByLastName: Candidate[] = [];
+    candidatesByLastName$.subscribe((cbln) => (candidatesByLastName = cbln));
+
+    let results = [...candidatesByFirstName, ...candidatesByLastName];
+
+    return of(results).pipe(
+      tap((x) =>
+        x.length
+          ? this.log(`found candidates matching "${term}"`)
+          : this.log(`no candidates matching "${term}"`)
+      ),
+      catchError(this.handleError<Candidate[]>('searchCandidates', []))
+    );*/
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

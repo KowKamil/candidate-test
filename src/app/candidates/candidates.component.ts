@@ -29,11 +29,12 @@ export class CandidatesComponent implements OnInit {
   add(firstName: string, lastName: string): void {
     firstName = firstName.trim();
     lastName = lastName.trim();
+    let fullName = firstName + ' ' + lastName;
     if (!firstName || !lastName) {
       return;
     }
     this.candidateService
-      .addCandidate({ firstName, lastName } as Candidate)
+      .addCandidate({ firstName, lastName, fullName } as Candidate)
       .subscribe((candidate) => {
         this.candidates.push(candidate);
       });
