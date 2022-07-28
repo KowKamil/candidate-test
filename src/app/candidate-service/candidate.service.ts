@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Candidate } from '../candidates/candidate';
-import { Observable, of } from 'rxjs';
+import { Observable, of, forkJoin, combineLatest } from 'rxjs';
 import { MessageService } from '../message-service/message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, tap, zipWith } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -62,7 +62,6 @@ export class CandidateService {
   }
 
   searchCandidates(term: string): Observable<Candidate[]> {
-    //TODO make the function search both first name and last name (v1 - do it by backend, v2 - follow through with merging observables)
     if (!term.trim()) {
       return of([]);
     }
@@ -76,30 +75,35 @@ export class CandidateService {
         ),
         catchError(this.handleError<Candidate[]>('searchCandidates', []))
       );
-    //an attempt to search both by first name and last name by merging requests
-    /*let candidatesByFirstName$ = this.http.get<Candidate[]>(
-      `${this.candidatesUrl}/?firstName=${term}`
-    );
-    let candidatesByLastName$ = this.http.get<Candidate[]>(
-      `${this.candidatesUrl}/?lastName=${term}`
-    );
+  }
 
-    let candidatesByFirstName: Candidate[] = [];
-    candidatesByFirstName$.subscribe((cbfn) => (candidatesByFirstName = cbfn));
+  searchCandidatesLegacy(term: string): Observable<Candidate[]> {
+    //legacy because of double amount of requests compared to just modifying the back-end
+    if (!term.trim()) {
+      return of([]);
+    }
 
-    let candidatesByLastName: Candidate[] = [];
-    candidatesByLastName$.subscribe((cbln) => (candidatesByLastName = cbln));
-
-    let results = [...candidatesByFirstName, ...candidatesByLastName];
-
-    return of(results).pipe(
+    let results$: Observable<Candidate[]> = combineLatest([
+      this.http.get<Candidate[]>(`${this.candidatesUrl}/?firstName=${term}`),
+      this.http.get<Candidate[]>(`${this.candidatesUrl}/?lastName=${term}`),
+    ]).pipe(
+      map(([candidatesByFirstName, candidatesByLastName]) =>
+        [...candidatesByFirstName, ...candidatesByLastName].reduce(
+          (acc: Candidate[], x) => {
+            if (!acc.some((candidate) => candidate.id === x.id)) acc.push(x);
+            return acc;
+          },
+          []
+        )
+      ),
       tap((x) =>
         x.length
           ? this.log(`found candidates matching "${term}"`)
           : this.log(`no candidates matching "${term}"`)
       ),
       catchError(this.handleError<Candidate[]>('searchCandidates', []))
-    );*/
+    );
+    return results$;
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
